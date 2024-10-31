@@ -5,7 +5,10 @@ import { APP_PIPE } from '@nestjs/core';
   providers: [
     {
       provide: APP_PIPE,
-      useValue: new ValidationPipe(),
+      useValue: new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }),
     },
   ],
 })
