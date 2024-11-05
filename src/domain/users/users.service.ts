@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationDto } from './dto/pagination.dto';
 import { Default_Page_Size } from 'common/util/common.constants';
@@ -15,7 +15,14 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ){}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    const existingUser = await this.userRepository.findOne({
+      where: {email: createUserDto.email},
+    });
+    if (existingUser){
+      throw new ConflictException('Email already exists');
+    }
+    
     const user = this.userRepository.create(createUserDto);
     return this.userRepository.save(user);
   }
