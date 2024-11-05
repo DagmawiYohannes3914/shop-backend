@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, Quer
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PaginationDto } from './dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 import { IdDto } from '../../common/dto/id.dto';
 
 @Controller('users')

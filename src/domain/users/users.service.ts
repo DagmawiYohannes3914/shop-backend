@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginationDto } from './dto/pagination.dto';
+import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Default_Page_Size } from 'common/util/common.constants';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -22,7 +22,7 @@ export class UsersService {
     if (existingUser){
       throw new ConflictException('Email already exists');
     }
-    
+
     const user = this.userRepository.create(createUserDto);
     return this.userRepository.save(user);
   }
