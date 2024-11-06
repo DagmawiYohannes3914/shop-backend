@@ -5,9 +5,10 @@ import { DatabaseModule } from './database/database.module';
 import { EnvModule } from './env/env.module';
 import { OrdersModule } from './domain/orders/orders.module';
 import { Payments~Module } from './domain/payments~/payments~.module';
+import { PaymentsModule } from './domain/payments/payments.module';
 
 @Module({
-  imports: [UsersModule, CommonModule, DatabaseModule, EnvModule, OrdersModule, Payments~Module],
+  imports: [UsersModule, CommonModule, DatabaseModule, EnvModule, OrdersModule, Payments~Module, PaymentsModule],
   controllers: [],
   providers: [],
 })
