@@ -12,31 +12,36 @@ export class UsersService {
 
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly usersRepository: Repository<User>,
   ){}
 
   async create(createUserDto: CreateUserDto) {
-    const existingUser = await this.userRepository.findOne({
+    const existingUser = await this.usersRepository.findOne({
       where: {email: createUserDto.email},
     });
     if (existingUser){
       throw new ConflictException('Email already exists');
     }
 
-    const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    const user = this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(user);
   }
 
   findAll(paginationDto: PaginationDto) {
     const {limit, offset } = paginationDto;
-    return this.userRepository.find({
+    return this.usersRepository.find({
       skip: offset,
       take: limit ?? Default_Page_Size.USER,
     });
   }
 
   async findOne(id: number) {
-   const user = await this.userRepository.findOneBy({ id });
+   const user = await this.usersRepository.findOne({
+  where: { id },
+  relations: {
+    orders: true,
+  },
+});
    if (!user) {
     throw new NotFoundException('User not found');
    }
@@ -44,18 +49,18 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.preload({
+    const user = await this.usersRepository.preload({
       id,
       ...updateUserDto,
     });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return this.userRepository.save(user);
+    return this.usersRepository.save(user);
   }
 
   async remove(id: number) {
     const user = await this.findOne(id);
-    return this.userRepository.remove(user);
+    return this.usersRepository.remove(user);
   }
 }
