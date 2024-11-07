@@ -11,15 +11,26 @@ export class OrdersService {
 
   constructor(
     @InjectRepository(Order)
-    private readonly userRepository: Repository<Order>,
+    private readonly ordersRepository: Repository<Order>,
   ){}
 
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+ create(createOrderDto: CreateOrderDto) {
+    // const {items} = createOrderDto;
+    const order = this.ordersRepository.create({
+      ...createOrderDto,
+    });
+
+    return this.ordersRepository.save(order);
+
+    
   }
 
   findAll(paginationDto: PaginationDto) {
-    return `This action returns all orders`;
+    const { page = 1, limit = 5 } = paginationDto;
+    return this.ordersRepository.find({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
   }
 
   findOne(id: number) {
