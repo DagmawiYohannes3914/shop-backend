@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
@@ -31,15 +31,26 @@ export class CategoriesService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    const category = await this.categoriesRepository.findOne({
+      where: { id },
+    })
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    const user = await this.categoriesRepository.preload({
+      id,
+      ...updateCategoryDto,
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return this.categoriesRepository.save(user);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    return this.categoriesRepository.remove(user);
   }
 }
