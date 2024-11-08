@@ -4,12 +4,11 @@ import { CommonModule } from './common/common.module';
 import { DatabaseModule } from './database/database.module';
 import { EnvModule } from './env/env.module';
 import { OrdersModule } from './domain/orders/orders.module';
-import { Payments~Module } from './domain/payments~/payments~.module';
 import { PaymentsModule } from './domain/payments/payments.module';
 import { CategoriesModule } from './domain/categories/categories.module';
 
 @Module({
-  imports: [UsersModule, CommonModule, DatabaseModule, EnvModule, OrdersModule, Payments~Module, PaymentsModule, CategoriesModule],
+  imports: [UsersModule, CommonModule, DatabaseModule, EnvModule, OrdersModule, PaymentsModule, CategoriesModule],
   controllers: [],
   providers: [],
 })
