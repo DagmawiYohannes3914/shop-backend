@@ -5,6 +5,7 @@ import { Order } from './entities/order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { PaginationDto } from 'common/dto/pagination.dto';
+import { Default_Page_Size } from 'common/util/common.constants';
 
 @Injectable()
 export class OrdersService {
@@ -26,10 +27,10 @@ export class OrdersService {
   }
  
   findAll(paginationDto: PaginationDto) {
-    const { page = 1, limit = 5 } = paginationDto;
+    const {limit, offset } = paginationDto;
     return this.ordersRepository.find({
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: offset,
+      take: limit ?? Default_Page_Size.ORDER,
     });
   }
 
