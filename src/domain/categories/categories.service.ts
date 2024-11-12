@@ -6,6 +6,7 @@ import { IdDto } from 'common/dto/id.dto';
 import { PaginationDto } from 'common/dto/pagination.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Default_Page_Size } from 'common/util/common.constants';
 
 @Injectable()
 export class CategoriesService {
@@ -24,10 +25,10 @@ export class CategoriesService {
   }
 
   findAll(paginationDto: PaginationDto) {
-    const { page = 1, limit = 30 } = paginationDto;
+    const { limit, offset } = paginationDto;
     return this.categoriesRepository.find({
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: offset,
+      take: limit ?? Default_Page_Size.CATEGORY,
     });
   }
 
