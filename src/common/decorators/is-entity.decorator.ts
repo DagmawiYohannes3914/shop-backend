@@ -1,0 +1,12 @@
+import { applyDecorators } from '@nestjs/common';
+import { Type } from 'class-transformer';
+import { IsInt, IsPositive, ValidateNested, ValidationOptions } from 'class-validator';
+import { IdDto } from 'common/dto/id.dto';
+
+/**
+ * Checks if the value is an object with a serial id.
+ */
+
+export const IsEntity = (
+): PropertyDecorator => applyDecorators(ValidateNested(),
+  Type(() => IdDto));
