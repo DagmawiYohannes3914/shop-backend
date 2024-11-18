@@ -26,7 +26,8 @@ export class OrdersService {
 
   const { items } = createOrderDto;
   const itemsWithPrice = await Promise.all(
-    items.map(item => this.createOrderItemWithPrice(item)),
+
+  items.map(item => this.createOrderItemWithPrice(item)),
   ) 
 
     const order = this.ordersRepository.create({
