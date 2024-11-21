@@ -10,9 +10,10 @@ export class Payment {
   registryDates: RegistryDates;
 
   @OneToOne(() => Order, (order) => order.payment, {
-    nullable: false,
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn()
-  order: Order
+  nullable: false,
+  onDelete: 'CASCADE',
+})
+@JoinColumn()
+order: Order;
+
 }

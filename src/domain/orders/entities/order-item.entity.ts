@@ -29,8 +29,5 @@ export class OrderItem{
     return this.quantity * this.price
   }
 
-  // get total(){
-  //   return this.
-  // }
 
 }
