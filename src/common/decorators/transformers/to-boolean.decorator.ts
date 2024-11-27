@@ -1,3 +1,5 @@
+import { Transform } from "class-transformer";
+
 const toBoolean = (value: unknown) => {
   switch (value) {
     case null:
@@ -12,4 +14,6 @@ const toBoolean = (value: unknown) => {
     default:
       return value;
   }
-}
+};
+
+export const ToBoolean = () => Transform(({ obj, key }) => toBoolean(obj[key]));
