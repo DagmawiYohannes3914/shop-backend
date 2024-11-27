@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { ArrayNotEmpty, IsNumber, IsOptional, IsPositive, Length, ValidateNested } from "class-validator";
-import { IsEntity } from "common/decorators/is-entity.decorator";
-import { IsCurrency } from "common/decorators/is-currency.decorator";
+import { IsEntity } from "common/decorators/validators/is-entity.decorator";
+import { IsCurrency } from "common/decorators/validators/is-currency.decorator";
 import { IdDto } from "common/dto/id.dto";
 
 export class CreateProductDto {
