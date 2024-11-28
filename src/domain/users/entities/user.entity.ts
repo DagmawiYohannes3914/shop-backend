@@ -22,7 +22,11 @@ export class User {
   @Column(() => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
 
-  @OneToMany(() => Order, (order) => order.customer)
+  @OneToMany(() => Order, (order) => order.customer,{ cascade: ['soft-remove', 'recover']})
   orders: Order[];
+
+  get isDeleted() {
+    return !!this.registryDates.deletedAt;
+  }
   
 }

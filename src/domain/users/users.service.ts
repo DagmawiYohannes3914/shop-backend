@@ -39,7 +39,10 @@ export class UsersService {
    const user = await this.usersRepository.findOne({
   where: { id },
   relations: {
-    orders: true,
+    orders: {
+      items: true,
+      payment: true,
+    }
   },
 });
    if (!user) {
@@ -59,8 +62,34 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async remove(id: number) {
+  async recover(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: {
+        orders: {
+          items: true,
+          payment: true,
+        },
+      },
+      withDeleted: true,
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        'User not found'
+      );
+    }
+    if (!user.registryDates.deletedAt) {
+      throw new ConflictException('User not deleted');
+    }
+
+    return this.usersRepository.recover(user)
+  }
+
+  async remove(id: number, soft: boolean) {
     const user = await this.findOne(id);
-    return this.usersRepository.remove(user);
+    return soft 
+      ? this.usersRepository.softRemove(user) 
+      : this.usersRepository.remove(user);
   }
 }
