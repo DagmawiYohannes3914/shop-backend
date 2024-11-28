@@ -79,7 +79,7 @@ export class UsersService {
         'User not found'
       );
     }
-    if (!user.registryDates.deletedAt) {
+    if (!user.isDeleted) {
       throw new ConflictException('User not deleted');
     }
 
