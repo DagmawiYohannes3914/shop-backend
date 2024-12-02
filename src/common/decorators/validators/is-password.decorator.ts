@@ -25,4 +25,4 @@ export const IsPassword = (
     AtLeastOneSpecialCharacter(validationOptions),
     OnlyRequiredCharacters(validationOptions),
     Length(8, 20, validationOptions),
-  );
+  ); 
