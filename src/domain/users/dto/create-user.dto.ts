@@ -1,4 +1,5 @@
 import { IsEmail, IsPhoneNumber, IsString, Length, Matches } from "class-validator";
+import { IsPassword } from "common/decorators/validators/is-password.decorator";
 
 export class CreateUserDto {
   @IsString()
@@ -13,7 +14,6 @@ export class CreateUserDto {
   @IsString()
   readonly phone: string;
 
-  // @Matches()
-  @IsString()
+  @IsPassword()
   readonly password: string;
 }
