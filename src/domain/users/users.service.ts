@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -91,5 +92,10 @@ export class UsersService {
     return soft 
       ? this.usersRepository.softRemove(user) 
       : this.usersRepository.remove(user);
+  }
+
+  private async hashPassword(password: string){
+    const salt = await genSalt();
+    return hash(password, salt);
   }
 }
