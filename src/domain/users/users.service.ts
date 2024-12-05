@@ -58,9 +58,12 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    const { password } = updateUserDto;
+    const hashedPassword = password && (await this.hashPassword(password));
     const user = await this.usersRepository.preload({
       id,
       ...updateUserDto,
+      password: hashedPassword,
     });
     if (!user) {
       throw new NotFoundException('User not found');
