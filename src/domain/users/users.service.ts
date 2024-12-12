@@ -7,6 +7,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { genSalt, hash } from 'bcrypt';
+import { HashingService } from 'auth/hashing/hashing.service';
 
 @Injectable()
 export class UsersService {
@@ -14,11 +15,12 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    private readonly hashingService: HashingService,
   ){}
 
   async create(createUserDto: CreateUserDto) {
     const { password } = createUserDto;
-    const hashedPassword = await this.hashPassword(password);
+    const hashedPassword = await this.hashingService.hash(password);
     const existingUser = await this.usersRepository.findOne({
       where: {email: createUserDto.email},
     });
@@ -59,7 +61,7 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { password } = updateUserDto;
-    const hashedPassword = password && (await this.hashPassword(password));
+    const hashedPassword = password && (await this.hashingService.hash(password));
     const user = await this.usersRepository.preload({
       id,
       ...updateUserDto,
@@ -100,10 +102,5 @@ export class UsersService {
     return soft 
       ? this.usersRepository.softRemove(user) 
       : this.usersRepository.remove(user);
-  }
-
-  private async hashPassword(password: string){
-    const salt = await genSalt();
-    return hash(password, salt);
   }
 }
