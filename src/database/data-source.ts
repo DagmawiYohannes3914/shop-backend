@@ -10,3 +10,6 @@ export default new DataSource({
   entities: ['dist/domain/**/*.entity.js'],
   migrations: ['dist/database/migrations/*.js'],
 });
+
+
+
